@@ -40,6 +40,7 @@ class Game
   end
 
   def tick
+    return if over?
     next_shape! if @shape.nil?
 
     new_pos = {x: @pos[:x], y: @pos[:y]+1}

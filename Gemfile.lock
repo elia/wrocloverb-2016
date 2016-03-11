@@ -11,7 +11,6 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    colorize (0.7.7)
     concurrent-ruby (1.0.1)
     ffi (1.9.10)
     hike (1.2.3)
@@ -57,7 +56,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  colorize
   inesita
   opal!
   puma

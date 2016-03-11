@@ -1,9 +1,7 @@
 require 'opal'
 require 'inesita'
 require 'browser/interval'
-require 'shapes'
-require 'grid'
-require 'game'
+require 'tretris'
 
 class Ouput
   include Inesita::Component
@@ -11,10 +9,10 @@ class Ouput
   def render
     game = store
 
-    h2 "Points: #{game.points}"
-    h2 "Next: #{game.next_shape.inspect}"
-    text "Paused (Press the spacebar to resume)" if game.paused
-    text game.JS[:pos].inspect
+    h3 { "Points: #{game.points}" }
+    h3 { "Next: #{game.next_shape.name}" }
+    h3 { "Paused (Press the spacebar to resume)" } if $pause
+    h3 { "GAME OVER" if game.over? }
 
     table(style: {border: '1px black dotted'}, margin: :auto) {
       game.height.times { |y|
