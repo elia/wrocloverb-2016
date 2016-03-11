@@ -30,6 +30,8 @@ GEM
     opal-browser (0.2.0)
       opal
       paggio
+    opal-jquery (0.4.1)
+      opal (>= 0.7.0, < 0.10.0)
     opal-virtual-dom (0.3.0)
       opal
     paggio (0.2.6)
@@ -58,6 +60,7 @@ PLATFORMS
 DEPENDENCIES
   inesita
   opal!
+  opal-jquery
   puma
 
 BUNDLED WITH

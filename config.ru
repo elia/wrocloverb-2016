@@ -1,6 +1,7 @@
 require 'bundler/setup'
 require 'opal'
 require 'inesita'
+require 'opal-jquery'
 
 run Opal::Server.new { |server|
   server.append_path 'lib'

@@ -30,10 +30,8 @@ class Game
       x: (@grid.width/2).to_i,
       y: -shape.height
     }
-    p new_pos: new_pos
 
     if @grid.can_add?(shape, new_pos)
-      p :can
       @update = @grid.update_for(shape, new_pos)
       @pos = new_pos
     end

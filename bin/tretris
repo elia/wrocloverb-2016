@@ -10,8 +10,8 @@ print_next_shape = -> shape_name {
   puts "Next: #{shape_name}"
 }
 
-# colors = %w[😀 ❤️ 🎩 🤖 🐸]
-# color_map = {}
+colors = %w[😀 ❤️ 🎩 🤖 🐸]
+color_map = {}
 
 print_grid = -> grid {
   grid.each do |line|
@@ -19,12 +19,11 @@ print_grid = -> grid {
     line.each do |cell|
       case cell
       when String, Symbol
-        # char = color_map[cell] ||= colors.shift
-        char = '🀫'
+        char = color_map[cell] ||= colors.shift
       else
         char = ' '
       end
-      print char #+' '
+      print char +' '
     end
     puts '|'# end of line
   end

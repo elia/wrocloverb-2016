@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
 gem 'opal', github: 'opal'
 gem 'inesita'
+gem 'opal-jquery'
 gem 'puma'
