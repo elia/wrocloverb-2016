@@ -1,0 +1,53 @@
+#!/usr/bin/env ruby
+$:.unshift "#{__dir__}/../lib"
+require 'tretris'
+
+print_score = -> score {
+  puts "Points: #{game.points}"
+}
+
+print_next_shape = -> shape {
+  "Next: #{game.next_shape.inspect}"
+}
+
+colors = %w[😀 ❤️ 🎩 🤖 🐸]
+color_map = {}
+
+print_grid = -> grid {
+  grid.each do |line|
+    line.each do |cell|
+      case cell
+      when String, Symbol
+        char = color_map[cell] ||= colors.shift
+      else
+        char = '_'
+      end
+      print char
+    end
+    puts # end of line
+  end
+}
+
+
+game = Tretris::Game.new
+commands = "a=left d=right w=rotate s=accelerate"
+
+puts "Usage: #{commands} (anything else does nothing)"
+puts "Press Enter to start..."
+puts
+
+while command = gets.chomp.downcase.to_sym
+  case command
+  when :a then game.move(:left)
+  when :d then game.move(:right)
+  when :w then game.move(:up)
+  when :s then game.move(:down)
+  end
+
+  game.tick
+  print_score[game.points]
+  print_next_shape[game.next_shape.name]
+  print_grid[game.lines]
+
+  print "command (#{commands})> "
+end

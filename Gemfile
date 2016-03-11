@@ -1,3 +1,5 @@
 source 'https://rubygems.org'
 gem 'opal', github: 'opal'
 gem 'inesita'
+gem 'puma'
+gem 'colorize'

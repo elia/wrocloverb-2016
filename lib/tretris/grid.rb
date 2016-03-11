@@ -1,38 +1,38 @@
+module Tretris
+
 class Grid
   def initialize(width:, height:)
-    @width = width
-    @height = height
+    @width    = width
+    @height   = height
     @new_line = -> { Array.new width }
-    @lines = Array.new(height, &@new_line)
+    @lines    = Array.new(height, &@new_line)
+    @deleted  = 0
   end
 
-  attr_reader :lines, :width, :height
+  attr_reader :lines, :width, :height, :deleted
 
   def update_for(shape, x:, y:)
-    lines         = @lines
-    color         = shape.color
-    points        = shape.map[x,y]
-    touched_lines = points.map(&:last).uniq
     update = {}
-
-    points.each { |x,y|
+    shape.map[x,y].each { |x,y|
       next if y < 0
-      line = (update[y] ||= lines[y].dup)
-      line[x] = color
+      line = (update[y] ||= @lines[y].dup)
+      line[x] = shape.color
     }
-
     update
   end
 
   def apply_lines(update)
     full = 0
     update.each do |y,line|
-      completed = line.all?
-      full += 1
-      p [line, full, completed]
-      @lines[y] = completed ? nil : line
+      if line.all?
+        deleted += 1
+        @lines[y] = nil
+      else
+        @lines[y] = line
+      end
     end
-    @lines = Array.new(full, &@new_line) + @lines.compact
+    @deleted += deleted
+    @lines = Array.new(full, &@new_line) + @lines.reject(&:nil?)
   end
 
   def with_update(update)
@@ -59,4 +59,6 @@ class Grid
   def color_for(x,y, lines: @lines)
     lines[x][y]
   end
+end
+
 end
