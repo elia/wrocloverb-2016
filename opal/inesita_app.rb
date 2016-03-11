@@ -31,26 +31,27 @@ class Ouput
 end
 
 
-$game = Tretris::Game.new
-$output = Ouput.new.with_store($game)
+game = Tretris::Game.new
+output = Ouput.new.with_store(game)
+pause = false
 
 $document.ready {
-  $output.mount_to($document.body)
+  output.mount_to($document.body)
 
   $document.body.on :keydown do |event|
     if event.code == 32 #Spacebar
-      $pause = !$pause
+      pause = !pause
       next
     end
 
-    $game.move(event.key.downcase)
-    $output.render!
+    game.move(event.key.downcase)
+    output.render!
   end
 
   $window.every 0.8 do
-    next if $pause
-    $game.tick
-    $output.render!
+    next if pause
+    game.tick
+    output.render!
   end
 }
 

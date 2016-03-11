@@ -7,6 +7,7 @@ game = Tretris::Game.new
 output_grid = []
 
 DOM {
+  h1 "TRETRIS"
   table(style: "border: 1px black dotted; margin: auto") {
     game.height.times { |y|
       tr {
@@ -21,7 +22,8 @@ DOM {
 colors = %w[😀 ❤️ 🎩 🤖 🐸]
 color_map = {}
 
-render = -> lines {
+render = -> {
+  $document.css("h1").text = game.over? ? "GAME OVER" : "POINTS: #{game.points}"
   game.height.times { |y|
     output_grid[y] ||= []
     game.width.times { |x|

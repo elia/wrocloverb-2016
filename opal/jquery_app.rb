@@ -13,12 +13,14 @@ td_style =
 line_html = Array.new(game.width, %{<td style="width: 30px;height: 30px;"></td>}).join
 grid_html = Array.new(game.height, "<tr>"+line_html+"</tr>").join
 
+Element[:body] << %{<h1>TRETRIS</h1>}
 Element[:body] << %{<table style="border: 1px black dotted; margin: auto">#{grid_html}</table>}
 
 colors = %w[😀 ❤️ 🎩 🤖 🐸]
 color_map = {}
 
-render = -> lines {
+render = -> {
+  Element[:h1].text = game.over? ? "GAME OVER" : "POINTS: #{game.points}"
   game.height.times { |y|
     output_grid[y] ||= []
     game.width.times { |x|
