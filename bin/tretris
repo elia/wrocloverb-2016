@@ -10,8 +10,8 @@ print_next_shape = -> shape_name {
   puts "Next: #{shape_name}"
 }
 
-colors = %w[😀 ❤️ 🎩 🤖 🐸]
-color_map = {}
+# colors = %w[😀 ❤️ 🎩 🤖 🐸]
+# color_map = {}
 
 print_grid = -> grid {
   grid.each do |line|
@@ -19,11 +19,12 @@ print_grid = -> grid {
     line.each do |cell|
       case cell
       when String, Symbol
-        char = color_map[cell] ||= colors.shift
+        # char = color_map[cell] ||= colors.shift
+        char = '🀫'
       else
         char = ' '
       end
-      print char+' '
+      print char #+' '
     end
     puts '|'# end of line
   end
@@ -37,12 +38,14 @@ puts "Usage: #{commands} (anything else does nothing)"
 puts "Press Enter to start..."
 puts
 
-while command = gets.chomp.downcase.to_sym
-  case command
-  when :a, :"\e[d" then game.move(:left)
-  when :d, :"\e[c" then game.move(:right)
-  when :w, :"\e[a" then game.move(:up)
-  when :s, :"\e[b" then game.move(:down)
+while command = gets.chomp.downcase
+  command.each_char do |char|
+    case char.to_sym
+    when :a, :"\e[d" then game.move(:left)
+    when :d, :"\e[c" then game.move(:right)
+    when :w, :"\e[a" then game.move(:up)
+    when :s, :"\e[b" then game.move(:down)
+    end
   end
 
   game.tick
