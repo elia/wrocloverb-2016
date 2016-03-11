@@ -4,19 +4,25 @@ require 'tretris/shapes'
 module Tretris
 
 class Game
-  attr_reader :lines, :height, :width, :next_shape, :points, :paused
+  attr_reader :lines, :height, :width, :game_over,
+              :next_shape, :points
 
-  def initialize
+
+  def initialize(w: 8, h: 20)
     @height     = 20
     @width      = 8
     @grid       = Grid.new(width: @width, height: @height)
     @lines      = @grid.lines
-    @paused     = true
     @next_shape = Shapes.sample
     @points     = 0
+    @game_over  = false
   end
 
-  def next_shape
+  def over?
+    @game_over
+  end
+
+  def next_shape!
     shape = @shape = @next_shape
     @next_shape = Shapes.sample
 
@@ -24,31 +30,27 @@ class Game
       x: (@grid.width/2).to_i,
       y: -shape.height
     }
+    p new_pos: new_pos
 
     if @grid.can_add?(shape, new_pos)
+      p :can
       @update = @grid.update_for(shape, new_pos)
       @pos = new_pos
-    else
-      p :paused
-      @paused = true
     end
   end
 
-  def toggle
-    @paused = !@paused
-  end
-
   def tick
-    return if @paused
-    p :tick
-    next_shape if @shape.nil?
+    next_shape! if @shape.nil?
 
     new_pos = {x: @pos[:x], y: @pos[:y]+1}
 
     if @grid.can_add?(@shape, new_pos)
       @update = @grid.update_for(@shape, new_pos)
+      @lines = @grid.with_update(@update)
       @pos = new_pos
     else
+      @game_over = true if @pos[:y] == -@shape.height
+
       @grid.apply_lines(@update)
       @points = @grid.deleted
       @shape = nil
@@ -56,6 +58,8 @@ class Game
   end
 
   def move(direction)
+    next_shape! if @shape.nil?
+
     new_shape = @shape
     new_pos = @pos
 

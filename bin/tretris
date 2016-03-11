@@ -3,11 +3,11 @@ $:.unshift "#{__dir__}/../lib"
 require 'tretris'
 
 print_score = -> score {
-  puts "Points: #{game.points}"
+  puts "Points: #{score}"
 }
 
-print_next_shape = -> shape {
-  "Next: #{game.next_shape.inspect}"
+print_next_shape = -> shape_name {
+  puts "Next: #{shape_name}"
 }
 
 colors = %w[😀 ❤️ 🎩 🤖 🐸]
@@ -15,16 +15,17 @@ color_map = {}
 
 print_grid = -> grid {
   grid.each do |line|
+    print "     |"
     line.each do |cell|
       case cell
       when String, Symbol
         char = color_map[cell] ||= colors.shift
       else
-        char = '_'
+        char = ' '
       end
-      print char
+      print char+' '
     end
-    puts # end of line
+    puts '|'# end of line
   end
 }
 
@@ -38,10 +39,10 @@ puts
 
 while command = gets.chomp.downcase.to_sym
   case command
-  when :a then game.move(:left)
-  when :d then game.move(:right)
-  when :w then game.move(:up)
-  when :s then game.move(:down)
+  when :a, :"\e[d" then game.move(:left)
+  when :d, :"\e[c" then game.move(:right)
+  when :w, :"\e[a" then game.move(:up)
+  when :s, :"\e[b" then game.move(:down)
   end
 
   game.tick
@@ -49,5 +50,11 @@ while command = gets.chomp.downcase.to_sym
   print_next_shape[game.next_shape.name]
   print_grid[game.lines]
 
-  print "command (#{commands})> "
+  if game.over?
+    warn " GAME OVER ".center(80, "~")
+    warn " #{game.points} points ".center(80, "~")
+    exit
+  else
+    print "command (#{commands})> "
+  end
 end

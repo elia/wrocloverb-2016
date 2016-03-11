@@ -2,10 +2,11 @@ module Tretris
 
 class Shape
   def initialize(name, maps, color, height)
+    @name = name
     @rotation = 0
     @maps, @color, @height = maps, color, height
   end
-  attr :height, :color, :rotation
+  attr :height, :color, :rotation, :name
 
   def rotated
     rotation = @rotation
@@ -20,6 +21,10 @@ class Shape
   def map
     @maps[@rotation]
   end
+
+  protected
+
+  attr_writer :rotation
 end
 
 Shapes = []

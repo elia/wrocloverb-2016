@@ -4,7 +4,7 @@ class Grid
   def initialize(width:, height:)
     @width    = width
     @height   = height
-    @new_line = -> { Array.new width }
+    @new_line = proc { Array.new width }
     @lines    = Array.new(height, &@new_line)
     @deleted  = 0
   end
@@ -22,7 +22,7 @@ class Grid
   end
 
   def apply_lines(update)
-    full = 0
+    deleted = 0
     update.each do |y,line|
       if line.all?
         deleted += 1
@@ -32,7 +32,7 @@ class Grid
       end
     end
     @deleted += deleted
-    @lines = Array.new(full, &@new_line) + @lines.reject(&:nil?)
+    @lines = Array.new(deleted, &@new_line) + @lines.reject(&:nil?)
   end
 
   def with_update(update)

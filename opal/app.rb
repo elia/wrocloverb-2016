@@ -40,12 +40,17 @@ $document.ready {
   $output.mount_to($document.body)
 
   $document.body.on :keydown do |event|
-    next $game.toggle if event.code == 32 #Spacebar
+    if event.code == 32 #Spacebar
+      $pause = !$pause
+      next
+    end
+
     $game.move(event.key.downcase)
     $output.render!
   end
 
   $window.every 0.8 do
+    next if $pause
     $game.tick
     $output.render!
   end
