@@ -1,4 +1,4 @@
-# [wrocleve.rb 2016](http://www.wrocloverb.com)
+# [wroc_love.rb 2016](http://www.wrocloverb.com)
 
 [Watch the Slides 👀](https://github.com/elia/wrocloverb-2016/tree/gh-pages)
 
