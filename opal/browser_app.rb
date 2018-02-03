@@ -36,7 +36,13 @@ render = -> {
 }
 
 $document.body.on :keydown do |event|
-  game.move(event.key.downcase)
+  key = {
+    37 => :left,
+    39 => :right,
+    38 => :up,
+    40 => :down
+  }[event.code]
+  game.move(key)
   render.call
 end
 

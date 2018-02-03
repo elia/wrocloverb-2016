@@ -39,7 +39,7 @@ Element[:body].on :keydown do |event|
     37 => :left,
     39 => :right,
     38 => :up,
-    40 => :down,
+    40 => :down
   }[event.which]
 
   game.move(key)
