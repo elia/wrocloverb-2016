@@ -1,11 +1,10 @@
 require 'bundler/setup'
-require 'opal'
-require 'inesita'
-require 'opal-jquery'
+Bundler.require
 
-run Opal::Server.new { |server|
+run Opal::Sprockets::Server.new { |server|
   server.append_path 'lib'
   server.append_path 'opal'
+  server.append_path 'node_modules'
   server.sprockets.cache = Sprockets::Cache::FileStore.new('tmp/cache')
   server.debug = true
   server.main = 'app'
